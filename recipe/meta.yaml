@@ -20,7 +20,6 @@ requirements:
     - python
     - flit-core >=3.2,<4
     - pip
-    - wheel
   run:
     - python
 
