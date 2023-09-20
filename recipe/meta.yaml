@@ -27,23 +27,23 @@ requirements:
 test:
   requires:
     - pip
-    - aiohttp
-    - pyopenssl
-    - pytest
-    - pytest-asyncio
-    - pytest-httpserver
-    - urllib3
-    - trustme
-    - requests
-    - flaky
-    - httpx
+    - aiohttp            # [not (linux and s390x)]
+    - pyopenssl          # [not (linux and s390x)]
+    - pytest             # [not (linux and s390x)]
+    - pytest-asyncio     # [not (linux and s390x)]
+    - pytest-httpserver  # [not (linux and s390x)]
+    - urllib3            # [not (linux and s390x)]
+    - trustme            # [not (linux and s390x)]
+    - requests           # [not (linux and s390x)]
+    - flaky              # [not (linux and s390x)]
+    - httpx              # [not (linux and s390x)]
   imports:
     - truststore
   source_files:
-    - tests
+    - tests              # [not (linux and s390x)]
   commands:
     - pip check
-    - pytest -v -s -rs --no-flaky-report --max-runs=3 tests/
+    - pytest -v -s -rs --no-flaky-report --max-runs=3 tests/  # [not (linux and s390x)]
 
 about:
   home: https://github.com/sethmlarson/truststore
