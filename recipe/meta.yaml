@@ -6,37 +6,56 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/truststore-{{ version }}.tar.gz
-  sha256: dc70da89634944a579bfeec70a7a4523c53ffdb3cf52d1bb4a431fda278ddb96
+  url: https://github.com/sethmlarson/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  fn: {{ name }}-{{ version }}.tar.gz
+  sha256: c862292f8d136bfcf2a7827a1fd1c1b27944a982741205fb466005673b570df8
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: True  # [py<310]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
   host:
-    - python >=3.10
+    - python
     - flit-core >=3.2,<4
     - pip
   run:
-    - python >=3.10
+    - python
 
 test:
-  imports:
-    - truststore
-  commands:
-    - pip check
   requires:
     - pip
+    - aiohttp            # [not (linux and s390x)]
+    - pyopenssl          # [not (linux and s390x)]
+    - pytest             # [not (linux and s390x)]
+    - pytest-asyncio     # [not (linux and s390x)]
+    - pytest-httpserver  # [not (linux and s390x)]
+    - urllib3            # [not (linux and s390x)]
+    - trustme            # [not (linux and s390x)]
+    - requests           # [not (linux and s390x)]
+    - flaky              # [not (linux and s390x)]
+    - httpx              # [not (linux and s390x)]
+  imports:
+    - truststore
+  source_files:
+    - tests              # [not (linux and s390x)]
+  commands:
+    - pip check
+    - pytest -v -s -rs --no-flaky-report --max-runs=3 tests/  # [not (linux and s390x)]
 
 about:
   home: https://github.com/sethmlarson/truststore
   summary: Verify certificates using native system trust stores
+  description: |
+    A library which exposes native system certificate stores (ie “trust stores”)
+    through an ssl.SSLContext-like API. This means that Python applications no
+    longer need to rely on certifi as a root certificate store.
   dev_url: https://github.com/sethmlarson/truststore
-  doc_url: https://truststore.readthedocs.io/en/latest/
+  doc_url: https://truststore.readthedocs.io/
   license: MIT
   license_file: LICENSE
+  license_family: MIT
 
 extra:
   recipe-maintainers:
