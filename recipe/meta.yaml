@@ -6,8 +6,9 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/truststore-{{ version }}.tar.gz
-  sha256: dc70da89634944a579bfeec70a7a4523c53ffdb3cf52d1bb4a431fda278ddb96
+  url: https://github.com/sethmlarson/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  fn: {{ name }}-{{ version }}.tar.gz
+  sha256: c862292f8d136bfcf2a7827a1fd1c1b27944a982741205fb466005673b570df8
 
 build:
   skip: True  # [py<310]
@@ -24,12 +25,25 @@ requirements:
     - python
 
 test:
-  imports:
-    - truststore
-  commands:
-    - pip check
   requires:
     - pip
+    - aiohttp
+    - pyopenssl
+    - pytest
+    - pytest-asyncio
+    - pytest-httpserver
+    - urllib3
+    - trustme
+    - requests
+    - flaky
+    - httpx
+  imports:
+    - truststore
+  source_files:
+    - tests
+  commands:
+    - pip check
+    - pytest -v -s -rs --no-flaky-report --max-runs=3 tests/
 
 about:
   home: https://github.com/sethmlarson/truststore
