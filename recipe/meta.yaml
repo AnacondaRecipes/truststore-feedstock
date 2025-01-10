@@ -1,5 +1,5 @@
 {% set name = "truststore" %}
-{% set version = "0.8.0" %}
+{% set version = "0.10.0" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 source:
   url: https://github.com/sethmlarson/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
   fn: {{ name }}-{{ version }}.tar.gz
-  sha256: c862292f8d136bfcf2a7827a1fd1c1b27944a982741205fb466005673b570df8
+  sha256: 12e89641dba78a9427f782ad2d824bed93583a9465002fe59b63c3fd12cbe8f5
 
 build:
   skip: True  # [py<310]
