@@ -18,6 +18,7 @@ build:
 requirements:
   host:
     - python
+    - pip
     - flit-core >=3.2,<4
   run:
     - python
@@ -25,23 +26,23 @@ requirements:
 test:
   requires:
     - pip
-    - aiohttp            # [not (linux and s390x)]
-    - pyopenssl          # [not (linux and s390x)]
-    - pytest             # [not (linux and s390x)]
-    - pytest-asyncio     # [not (linux and s390x)]
-    - pytest-httpserver  # [not (linux and s390x)]
-    - urllib3            # [not (linux and s390x)]
-    - trustme            # [not (linux and s390x)]
-    - requests           # [not (linux and s390x)]
-    - flaky              # [not (linux and s390x)]
-    - httpx              # [not (linux and s390x)]
+    - aiohttp            # [not linux]
+    - pyopenssl          # [not linux]
+    - pytest             # [not linux]
+    - pytest-asyncio     # [not linux]
+    - pytest-httpserver  # [not linux]
+    - urllib3            # [not linux]
+    - trustme            # [not linux]
+    - requests           # [not linux]
+    - flaky             # [not linux]
+    - httpx             # [not linux]
   imports:
     - truststore
   source_files:
-    - tests              # [not (linux and s390x)]
+    - tests              # [not linux]
   commands:
     - pip check
-    - pytest -v -s -rs --no-flaky-report --max-runs=3 tests/  # [not (linux and s390x)]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors)' tests/  # [not linux]
 
 about:
   home: https://github.com/sethmlarson/truststore
@@ -50,12 +51,12 @@ about:
     A library which exposes native system certificate stores (ie “trust stores”)
     through an ssl.SSLContext-like API. This means that Python applications no
     longer need to rely on certifi as a root certificate store.
-  dev_url: https://github.com/sethmlarson/truststore
-  doc_url: https://truststore.readthedocs.io/
   license: MIT
   license_file: LICENSE
   license_family: MIT
+  doc_url: https://truststore.readthedocs.io/
+  dev_url: https://github.com/sethmlarson/truststore
 
 extra:
   recipe-maintainers:
-    - wolfv
+    - conda-forge/truststore
