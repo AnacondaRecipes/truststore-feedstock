@@ -42,8 +42,8 @@ test:
     - tests              # [not linux]
   commands:
     - pip check
-    - pytest -k "not \(test_failures or test_failure_after_loading_additional_anchors\)" tests/  # [win]
-    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors)' tests/  # [not linux and not win]
+    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors)" tests/  # [win]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors)' tests/  # [osx]
 
 about:
   home: https://github.com/sethmlarson/truststore
