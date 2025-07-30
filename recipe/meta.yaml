@@ -55,7 +55,7 @@ about:
   license: MIT
   license_file: LICENSE
   license_family: MIT
-  doc_url: https://truststore.readthedocs.io/
+  doc_url: https://truststore.readthedocs.io
   dev_url: https://github.com/sethmlarson/truststore
 
 extra:
