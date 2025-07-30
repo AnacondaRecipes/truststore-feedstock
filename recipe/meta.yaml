@@ -39,7 +39,7 @@ test:
   imports:
     - truststore
   source_files:
-    - tests              # [not linux]
+    - tests
   commands:
     - pip check
     - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors)" tests/  # [win]
