@@ -26,16 +26,16 @@ requirements:
 test:
   requires:
     - pip
-    - aiohttp            # [not linux]
-    - pyopenssl          # [not linux]
-    - pytest             # [not linux]
-    - pytest-asyncio     # [not linux]
-    - pytest-httpserver  # [not linux]
-    - urllib3            # [not linux]
-    - trustme            # [not linux]
-    - requests           # [not linux]
-    - flaky             # [not linux]
-    - httpx             # [not linux]
+    - aiohttp
+    - pyopenssl
+    - pytest
+    - pytest-asyncio
+    - pytest-httpserver
+    - urllib3
+    - trustme
+    - requests
+    - flaky
+    - httpx
   imports:
     - truststore
   source_files:
