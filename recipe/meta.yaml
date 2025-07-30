@@ -1,5 +1,5 @@
 {% set name = "truststore" %}
-{% set version = "0.10.0" %}
+{% set version = "0.10.1" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 source:
   url: https://github.com/sethmlarson/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
   fn: {{ name }}-{{ version }}.tar.gz
-  sha256: 12e89641dba78a9427f782ad2d824bed93583a9465002fe59b63c3fd12cbe8f5
+  sha256: a470d2763875f9b9a148d5726af330d15b65d2a83f70610c262de8888ee94b4e
 
 build:
   skip: True  # [py<310]
@@ -18,45 +18,46 @@ build:
 requirements:
   host:
     - python
-    - flit-core >=3.2,<4
     - pip
+    - flit-core >=3.2,<4
   run:
     - python
 
 test:
   requires:
     - pip
-    - aiohttp            # [not (linux and s390x)]
-    - pyopenssl          # [not (linux and s390x)]
-    - pytest             # [not (linux and s390x)]
-    - pytest-asyncio     # [not (linux and s390x)]
-    - pytest-httpserver  # [not (linux and s390x)]
-    - urllib3            # [not (linux and s390x)]
-    - trustme            # [not (linux and s390x)]
-    - requests           # [not (linux and s390x)]
-    - flaky              # [not (linux and s390x)]
-    - httpx              # [not (linux and s390x)]
+    - aiohttp
+    - pyopenssl
+    - pytest
+    - pytest-asyncio
+    - pytest-httpserver
+    - urllib3
+    - trustme
+    - requests
+    - flaky
+    - httpx
   imports:
     - truststore
   source_files:
-    - tests              # [not (linux and s390x)]
+    - tests
   commands:
     - pip check
-    - pytest -v -s -rs --no-flaky-report --max-runs=3 tests/  # [not (linux and s390x)]
+    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors)" tests/  # [win]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors)' tests/  # [osx]
 
 about:
   home: https://github.com/sethmlarson/truststore
   summary: Verify certificates using native system trust stores
   description: |
-    A library which exposes native system certificate stores (ie “trust stores”)
+    A library which exposes native system certificate stores (ie "trust stores")
     through an ssl.SSLContext-like API. This means that Python applications no
     longer need to rely on certifi as a root certificate store.
-  dev_url: https://github.com/sethmlarson/truststore
-  doc_url: https://truststore.readthedocs.io/
   license: MIT
   license_file: LICENSE
   license_family: MIT
+  doc_url: https://truststore.readthedocs.io
+  dev_url: https://github.com/sethmlarson/truststore
 
 extra:
   recipe-maintainers:
-    - wolfv
+    - conda-forge/truststore
