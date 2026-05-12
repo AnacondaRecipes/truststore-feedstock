@@ -42,13 +42,12 @@ test:
     - tests
   commands:
     - pip check
-    # test_success_with_inject hits live https://example.com and https://1.1.1.1. The
-    # @internet mark is not registered in this pytest invocation (see warnings), so
-    # those tests always run. Cloudflare/CI often returns 404 for GET https://1.1.1.1/
-    # on PBP workers (osx-arm64, win-64) — unrelated to truststore correctness. Skip
-    # that parametrized test on win/osx; other inject tests still run.
-    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject)" tests/  # [win]
-    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject)' tests/  # [osx]
+    # @internet is not registered here (see warnings), so marked tests still run.
+    # Skip live-network cases that routinely fail on PBP (DNS, badssl resets), not
+    # truststore logic: test_success_with_inject (1.1.1.1 404); test_minimum_maximum_version
+    # (howsmyssl.com — no DNS on osx-arm64); superfish.badssl.com (connection reset vs SSLError on win).
+    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish)" tests/  # [win]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version)' tests/  # [osx]
 
 about:
   home: https://github.com/sethmlarson/truststore
