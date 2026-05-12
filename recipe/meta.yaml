@@ -47,7 +47,7 @@ test:
     # truststore logic: test_success_with_inject (1.1.1.1 404); test_minimum_maximum_version
     # (howsmyssl.com — no DNS on osx-arm64); superfish.badssl.com (connection reset vs SSLError on win).
     - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish)" tests/  # [win]
-    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version)' tests/  # [osx]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version)' tests/  # [unix]
 
 about:
   home: https://github.com/sethmlarson/truststore
