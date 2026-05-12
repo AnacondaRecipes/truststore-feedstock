@@ -1,5 +1,5 @@
 {% set name = "truststore" %}
-{% set version = "0.10.1" %}
+{% set version = "0.10.4" %}
 
 package:
   name: {{ name|lower }}
@@ -8,18 +8,18 @@ package:
 source:
   url: https://github.com/sethmlarson/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
   fn: {{ name }}-{{ version }}.tar.gz
-  sha256: a470d2763875f9b9a148d5726af330d15b65d2a83f70610c262de8888ee94b4e
+  sha256: 206df24198a4a1257e3f9d9a02bbf09a526211d59fcc5f9f7e9b71b5079a9aa9
 
 build:
   skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 0
 
 requirements:
   host:
     - python
     - pip
-    - flit-core >=3.2,<4
+    - flit-core >=3.11,<4
   run:
     - python
 
