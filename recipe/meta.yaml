@@ -42,12 +42,12 @@ test:
     - tests
   commands:
     - pip check
-    # @internet is not registered here (see warnings), so marked tests still run.
-    # Skip live-network cases that routinely fail on PBP (DNS, badssl resets), not
-    # truststore logic: test_success_with_inject (1.1.1.1 404); test_minimum_maximum_version
-    # (howsmyssl.com — no DNS on osx-arm64); superfish.badssl.com (connection reset vs SSLError on win).
-    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish)" tests/  # [win]
-    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version)' tests/  # [unix]
+    # @internet is not registered here, so marked tests still run.
+    # Skip live-network PBP flakes, not truststore logic: inject (1.1.1.1 404);
+    # test_minimum_maximum_version (howsmyssl DNS); superfish + test_check_hostname_false
+    # (badssl.com connection reset).
+    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish or test_check_hostname_false)" tests/  # [win]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or test_check_hostname_false)' tests/  # [unix]
 
 about:
   home: https://github.com/sethmlarson/truststore
