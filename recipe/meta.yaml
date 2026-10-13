@@ -44,10 +44,11 @@ test:
     - pip check
     # @internet is not registered here, so marked tests still run.
     # Skip live-network PBP flakes, not truststore logic: inject (1.1.1.1 404);
-    # test_minimum_maximum_version (howsmyssl DNS); superfish + test_check_hostname_false
-    # (badssl.com connection reset).
-    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish or test_check_hostname_false)" tests/  # [win]
-    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or test_check_hostname_false)' tests/  # [unix]
+    # test_minimum_maximum_version (howsmyssl DNS); superfish, test_check_hostname_false,
+    # and test_sslcontext_api_failures_async (badssl.com connection reset).
+    # test_failures is not a substring of test_sslcontext_api_failures_async.
+    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish or test_check_hostname_false or test_sslcontext_api_failures_async)" tests/  # [win]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or test_check_hostname_false or test_sslcontext_api_failures_async)' tests/  # [unix]
 
 about:
   home: https://github.com/sethmlarson/truststore
