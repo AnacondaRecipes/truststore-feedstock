@@ -1,5 +1,5 @@
 {% set name = "truststore" %}
-{% set version = "0.10.4" %}
+{% set version = "0.10.5" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 source:
   url: https://github.com/sethmlarson/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
   fn: {{ name }}-{{ version }}.tar.gz
-  sha256: 206df24198a4a1257e3f9d9a02bbf09a526211d59fcc5f9f7e9b71b5079a9aa9
+  sha256: de09d73aacfab4e179e65fb07826f57f2f5ca5f1d00cdf1a3cadbb4bc036f853
 
 build:
   skip: true  # [py<310]
@@ -42,12 +42,13 @@ test:
     - tests
   commands:
     - pip check
-    # @internet is not registered here (see warnings), so marked tests still run.
-    # Skip live-network cases that routinely fail on PBP (DNS, badssl resets), not
-    # truststore logic: test_success_with_inject (1.1.1.1 404); test_minimum_maximum_version
-    # (howsmyssl.com — no DNS on osx-arm64); superfish.badssl.com (connection reset vs SSLError on win).
-    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish)" tests/  # [win]
-    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version)' tests/  # [unix]
+    # @internet is not registered here, so marked tests still run.
+    # Skip live-network PBP flakes, not truststore logic: inject (1.1.1.1 404);
+    # test_minimum_maximum_version (howsmyssl DNS); superfish, test_check_hostname_false,
+    # and test_sslcontext_api_failures_async (badssl.com connection reset).
+    # test_failures is not a substring of test_sslcontext_api_failures_async.
+    - pytest -k "not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or superfish or test_check_hostname_false or test_sslcontext_api_failures_async)" tests/  # [win]
+    - pytest -k 'not (test_failures or test_failure_after_loading_additional_anchors or test_success_with_inject or test_minimum_maximum_version or test_check_hostname_false or test_sslcontext_api_failures_async)' tests/  # [unix]
 
 about:
   home: https://github.com/sethmlarson/truststore
